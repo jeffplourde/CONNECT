@@ -81,4 +81,13 @@ public class PolicyEngineTransformationService {
         return new PolicyEngineTransformer().transformNotifyToCheckPolicy(transformNotifyToCheckPolicyRequest);
     }
 
+    public gov.hhs.fha.nhinc.common.nhinccommonadapter.CheckPolicyRequestType transformSubjectAddedToCheckPolicy(
+	    gov.hhs.fha.nhinc.common.eventcommon.SubjectAddedEventType transformSubjectAddedToCheckPolicy) {
+	throw new UnsupportedOperationException("Not implemented.");
+   }
+
+    public gov.hhs.fha.nhinc.common.nhinccommonadapter.CheckPolicyRequestType transformSubjectRevisedToCheckPolicy(
+	    gov.hhs.fha.nhinc.common.eventcommon.SubjectRevisedEventType transformSubjectRevisedToCheckPolicy) {
+	throw new UnsupportedOperationException("Not implemented.");
+   }
 }
