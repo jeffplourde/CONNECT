@@ -52,7 +52,7 @@ public class EntityPatientDiscoveryProxyWebServiceSecuredImpl implements EntityP
     private static final String SERVICE_LOCAL_PART = "EntityPatientDiscoverySecured";
     private static final String PORT_LOCAL_PART = "EntityPatientDiscoverySecuredPortSoap";
     private static final String WSDL_FILE = "EntityPatientDiscoverySecured.wsdl";
-    private static final String WS_ADDRESSING_ACTION = "urn:gov:hhs:fha:nhinc:entitypatientdiscoverysecured:RespondingGateway_PRPA_IN201305UV02RequestMessage";
+    private static final String WS_ADDRESSING_ACTION = "urn:RespondingGateway_PRPA_IN201305UV02";
     private WebServiceProxyHelper oProxyHelper = null;
 
     public EntityPatientDiscoveryProxyWebServiceSecuredImpl() {

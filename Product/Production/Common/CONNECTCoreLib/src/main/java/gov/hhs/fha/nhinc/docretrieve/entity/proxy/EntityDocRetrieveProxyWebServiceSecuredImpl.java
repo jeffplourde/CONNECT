@@ -57,7 +57,8 @@ public class EntityDocRetrieveProxyWebServiceSecuredImpl implements EntityDocRet
     private static final String SERVICE_LOCAL_PART = "EntityDocRetrieveSecured";
     private static final String PORT_LOCAL_PART = "EntityDocRetrieveSecuredPortSoap";
     private static final String WSDL_FILE = "EntityDocRetrieveSecured.wsdl";
-    private static final String WS_ADDRESSING_ACTION = NAMESPACE_URI + ":RespondingGateway_CrossGatewayRetrieve";
+    private static final String WS_ADDRESSING_ACTION = "urn:RespondingGateway_CrossGatewayRetrieve";
+    
 
     private static org.apache.commons.logging.Log log = null;
 
@@ -84,21 +85,22 @@ public class EntityDocRetrieveProxyWebServiceSecuredImpl implements EntityDocRet
         RetrieveDocumentSetResponseType response = null;
 
         if (NullChecker.isNotNullish(url)) {
-            EntityDocRetrieveSecuredPortType port = getPort(url, assertion, serviceName);
-            RespondingGatewayCrossGatewayRetrieveSecuredRequestType message = new RespondingGatewayCrossGatewayRetrieveSecuredRequestType();
+            EntityDocRetrieveSecuredPortType port = getPort(url, NhincConstants.DOC_RETRIEVE_ACTION, assertion);
 
             SamlTokenCreator tokenCreator = new SamlTokenCreator();
-            Map requestContext = tokenCreator.CreateRequestContext(assertion, url, NhincConstants.DOC_QUERY_ACTION);
+            Map requestContext = tokenCreator.CreateRequestContext(assertion, url, NhincConstants.DOC_RETRIEVE_ACTION);
 
             ((BindingProvider) port).getRequestContext().putAll(requestContext);
 
-            message.setNhinTargetCommunities(targets);
-            message.setRetrieveDocumentSetRequest(body);
+	    RespondingGatewayCrossGatewayRetrieveSecuredRequestType request = new RespondingGatewayCrossGatewayRetrieveSecuredRequestType();
 
+	    request.setRetrieveDocumentSetRequest(body);
+	    request.setNhinTargetCommunities(targets);
+	    
             try {
                 log.debug("invoke port");
                 response = (RetrieveDocumentSetResponseType) proxyHelper.invokePort(port,
-                        EntityDocRetrieveSecuredPortType.class, "respondingGatewayCrossGatewayRetrieve", message);
+                        EntityDocRetrieveSecuredPortType.class, "respondingGatewayCrossGatewayRetrieve", request);
             } catch (Exception ex) {
                 log.error("Failed to call the web service (" + serviceName + ").  An unexpected exception occurred.  "
                         + "Exception: " + ex.getMessage(), ex);
@@ -136,7 +138,7 @@ public class EntityDocRetrieveProxyWebServiceSecuredImpl implements EntityDocRet
         return cachedService;
     }
 
-    protected EntityDocRetrieveSecuredPortType getPort(String url, AssertionType assertion, String serviceName) {
+    protected EntityDocRetrieveSecuredPortType getPort(String url, String serviceAction, AssertionType assertion) {
         WebServiceProxyHelper proxyHelper = getWebServiceProxyHelper();
 
         EntityDocRetrieveSecuredPortType port = null;
@@ -145,7 +147,7 @@ public class EntityDocRetrieveProxyWebServiceSecuredImpl implements EntityDocRet
             log.debug("Obtained service - creating port.");
             port = cacheService.getPort(new QName(NAMESPACE_URI, PORT_LOCAL_PART),
                     EntityDocRetrieveSecuredPortType.class);
-            proxyHelper.initializeSecurePort((javax.xml.ws.BindingProvider) port, url, serviceName,
+            proxyHelper.initializeSecurePort((javax.xml.ws.BindingProvider) port, url, serviceAction,
                     WS_ADDRESSING_ACTION, assertion);
         } else {
             log.error("Unable to obtain serivce - no port created.");
