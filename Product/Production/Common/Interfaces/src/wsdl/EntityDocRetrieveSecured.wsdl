@@ -18,6 +18,7 @@
    xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
    xmlns:sxnmp="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/NMProperty"
    xmlns:wsoma="http://schemas.xmlsoap.org/ws/2004/09/policy/optimizedmimeserialization" 
+   xmlns:nccommonentity="urn:gov:hhs:fha:nhinc:common:nhinccommonentity"
    name="EntityDocRetrieveSecured"
    targetNamespace="urn:gov:hhs:fha:nhinc:entitydocretrievesecured">
     <documentation>Entity Document Retrieve Secured</documentation>
@@ -27,13 +28,16 @@
                         schemaLocation="../schemas/ihe/XDS.b_DocumentRepository.xsd"/>
             <xsd:import namespace="urn:gov:hhs:fha:nhinc:gateway:samltokendata"
                         schemaLocation="../schemas/nhinc/gateway/SamlTokenData.xsd"/>
+	    <xsd:import namespace="urn:gov:hhs:fha:nhinc:common:nhinccommonentity"
+			schemaLocation="../schemas/nhinc/common/NhincCommonEntity.xsd"/>
+
         </xsd:schema>
     </types>
-    <message name="RespondingGateway_CrossGatewayRetrieveRequestMessage">
+    <message name="RespondingGateway_CrossGatewayRetrieveSecuredRequestMessage">
         <part name="body"
-              element="ihe:RetrieveDocumentSetRequest"/>
+              element="nccommonentity:RespondingGateway_CrossGatewayRetrieveSecuredRequest"/>
     </message>
-    <message name="RespondingGateway_CrossGatewayRetrieveResponseMessage">
+    <message name="RespondingGateway_CrossGatewayRetrieveSecuredResponseMessage">
         <part name="body"
               element="ihe:RetrieveDocumentSetResponse"/>
     </message>
@@ -41,11 +45,11 @@
     <portType name="EntityDocRetrieveSecuredPortType">
         <operation name="RespondingGateway_CrossGatewayRetrieve">
             <input name="RespondingGateway_CrossGatewayRetrieveRequest"
-                   message="tns:RespondingGateway_CrossGatewayRetrieveRequestMessage"
-                   wsaw:Action="urn:gov:hhs:fha:nhinc:entitydocretrievesecured:RespondingGateway_CrossGatewayRetrieveRequestMessage" />
+                   message="tns:RespondingGateway_CrossGatewayRetrieveSecuredRequestMessage"
+                   wsaw:Action="urn:gov:hhs:fha:nhinc:entitydocretrievesecured:RespondingGateway_CrossGatewayRetrieveSecuredRequestMessage" />
             <output name="RespondingGateway_CrossGatewayRetrieveResponse"
-                    message="tns:RespondingGateway_CrossGatewayRetrieveResponseMessage"
-                    wsaw:Action="urn:gov:hhs:fha:nhinc:entitydocretrievesecured:RespondingGateway_CrossGatewayRetrieveResponseMessage" />
+                    message="tns:RespondingGateway_CrossGatewayRetrieveSecuredResponseMessage"
+                    wsaw:Action="urn:gov:hhs:fha:nhinc:entitydocretrievesecured:RespondingGateway_CrossGatewayRetrieveSecuredResponseMessage" />
         </operation>
     </portType>
     
